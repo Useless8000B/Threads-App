@@ -12,7 +12,6 @@ class LikedScreen extends StatelessWidget {
       backgroundColor: Colors.black,
       body: CustomScrollView(
         slivers: [
-          // Filtros Horizontais (Chips)
           SliverToBoxAdapter(
             child: Container(
               height: 60,
@@ -51,7 +50,6 @@ class LikedScreen extends StatelessWidget {
             ),
           ),
 
-          // Lista de Atividades
           SliverList(
             delegate: SliverChildListDelegate([
               const ActivityTileWidget(
