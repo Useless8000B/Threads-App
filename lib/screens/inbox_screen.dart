@@ -35,7 +35,7 @@ class InboxScreen extends StatelessWidget {
             child: ListView(
               children: const [
                 InboxTileWidget(
-                  userName: "sarah_keller",
+                  userName: "irineu",
                   lastMessage: "Did you see the latest post about the architectural design?",
                   timeAgo: "2h",
                   isUnread: true,
@@ -49,7 +49,7 @@ class InboxScreen extends StatelessWidget {
                   avatarUrl: "https://lh3.googleusercontent.com/aida-public/AB6AXuBGGxyeilpJqB-57QfB7W75_0WYHPBmGbCA4Y84sgghCvIHd_IMEe3kfLhnCrmiS8HYgEI0O89r9q2w6bJb4seYI4aAl5k-Mxhm6LK4XDWcHdkVmJnOckQgGwlqh2g7thvhRnXOtqeakUksv2UlHwygwZ2AdfqWkZfMaAzJBRXE__3uoodquXJsvmcvtfJ6NlWBmIX_wYf25mhvi8p7MutcBVxiUN8rrd9s3E0XRzVvM6WxG4cuzK0HT4FVEpwSAFtwIWWV4lpJHjM",
                 ),
                 InboxTileWidget(
-                  userName: "elena_v",
+                  userName: "supershock",
                   lastMessage: "That works for me. See you at the gallery tonight!",
                   timeAgo: "1d",
                   isUnread: false,
