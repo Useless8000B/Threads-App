@@ -7,7 +7,12 @@ class AuthService {
 
   Stream<User?> get user => _auth.authStateChanges();
 
-  Future<UserCredential?> signUp(String email, String password, String username, String fullName) async {
+  Future<UserCredential?> signUp(
+    String email,
+    String password,
+    String username,
+    String fullName,
+  ) async {
     try {
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
         email: email,
@@ -26,14 +31,16 @@ class AuthService {
 
       return credential;
     } catch (e) {
-      print("Erro no registro completo: $e");
       return null;
     }
   }
 
   Future<UserCredential?> signIn(String email, String password) async {
     try {
-      return await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
     } catch (e) {
       return null;
     }
@@ -42,4 +49,10 @@ class AuthService {
   Future<void> signOut() async {
     await _auth.signOut();
   }
+
+  Future<DocumentSnapshot> getUserData(String uid) async {
+    return await _firestore.collection('users').doc(uid).get();
+  }
+
+  User? get currentUser => _auth.currentUser; 
 }

@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 class ThreadCardWidget extends StatelessWidget {
   final String userName;
   final String content;
-  final String timeAgo;
-  final String? imageUrl;
+  final DateTime? timeAgo;
   final String? avatarUrl;
   final int replies;
   final int likes;
@@ -14,11 +13,27 @@ class ThreadCardWidget extends StatelessWidget {
     required this.userName,
     required this.content,
     required this.timeAgo,
-    this.imageUrl,
     this.avatarUrl,
     this.replies = 0,
     this.likes = 0,
   });
+
+  String _formatTimeAgo(DateTime? dateTime) {
+    if (dateTime == null) return '';
+    final difference = DateTime.now().difference(dateTime);
+
+    if (difference.inDays >= 7) {
+      return '${(difference.inDays / 7).floor()}w';
+    } else if (difference.inDays >= 1) {
+      return '${difference.inDays}d';
+    } else if (difference.inHours >= 1) {
+      return '${difference.inHours}h';
+    } else if (difference.inMinutes >= 1) {
+      return '${difference.inMinutes}m';
+    } else {
+      return 'now';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +69,7 @@ class ThreadCardWidget extends StatelessWidget {
                       Text(userName, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
                       Row(
                         children: [
-                          Text(timeAgo, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                          Text(_formatTimeAgo(timeAgo), style: const TextStyle(color: Colors.grey, fontSize: 12)),
                           const SizedBox(width: 10),
                           const Icon(Icons.more_horiz, color: Colors.grey, size: 20),
                         ],
@@ -62,14 +77,7 @@ class ThreadCardWidget extends StatelessWidget {
                     ],
                   ),
                   Text(content, style: const TextStyle(color: Colors.white, fontSize: 15, height: 1.3)),
-                  if (imageUrl != null)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.network(imageUrl!, fit: BoxFit.cover),
-                      ),
-                    ),
+
                   const SizedBox(height: 12),
                   const Row(
                     children: [
