@@ -185,11 +185,11 @@ class PerfilScreen extends StatelessWidget {
               ListView.builder(
                 padding: EdgeInsets.zero,
                 itemCount: 1,
-                itemBuilder: (context, index) => const ThreadCardWidget(
+                itemBuilder: (context, index) => ThreadCardWidget(
                   userName: 'Adriel',
                   content:
                       'Remember the moment, you left me alone and broke every promise you ever made',
-                  timeAgo: '45 days ago',
+                  timeAgo: DateTime.now().subtract(const Duration(days: 45)),
                 ),
               ),
               const Center(
