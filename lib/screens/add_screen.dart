@@ -16,9 +16,6 @@ class _AddScreenState extends State<AddScreen> {
   final TextEditingController _controller = TextEditingController();
   final AuthService _authService = AuthService();
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
