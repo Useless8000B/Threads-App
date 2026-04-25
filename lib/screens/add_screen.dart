@@ -3,6 +3,7 @@ import 'package:threads_app/colors.dart';
 import 'package:threads_app/models/post_model.dart';
 import 'package:threads_app/services/auth_service.dart';
 import 'package:threads_app/services/post_service.dart';
+import 'package:threads_app/widgets/snackbar_utils.dart';
 
 class AddScreen extends StatefulWidget {
   const AddScreen({super.key});
@@ -87,8 +88,6 @@ class _AddScreenState extends State<AddScreen> {
                       ),
                     ),
 
-
-
                     const SizedBox(height: 16),
                     Row(
                       children: [
@@ -166,11 +165,20 @@ class _AddScreenState extends State<AddScreen> {
                   final PostService postService = PostService();
                   bool success = await postService.createPost(newPost);
 
-                  if(success) {
-                    print("Success");
+                  if (success) {
+                    if (mounted) {
+                      SnackbarUtils.showSuccess(context, "Post created successfully!");
+                      Navigator.pop(context);
+                    }
+                  } else {
+                    if (mounted) {
+                      SnackbarUtils.showError(context, "Failed to create post.");
+                    }
                   }
                 } catch (error) {
-                  print("Hey: $error");
+                  if (mounted) {
+                    SnackbarUtils.showError(context, "An error occurred: $error");
+                  }
                 }
               },
               style: ElevatedButton.styleFrom(

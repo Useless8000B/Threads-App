@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:threads_app/colors.dart';
 import 'package:threads_app/services/auth_service.dart';
+import 'package:threads_app/widgets/snackbar_utils.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -31,9 +32,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (_emailController.text.isEmpty ||
         _passwordController.text.isEmpty ||
         _userController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please fill in all fields")),
-      );
+      SnackbarUtils.showWarning(context, "Please fill in all fields");
       return;
     }
 
@@ -50,11 +49,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (user == null) {
         if (mounted) {
           setState(() => _isLoading = false);
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Registration failed. Check your data."),
-            ),
-          );
+          SnackbarUtils.showError(context, "Registration failed. Check your data.");
+        }
+      } else {
+        if (mounted) {
+          SnackbarUtils.showSuccess(context, "Account created successfully!");
+          Navigator.pop(context);
         }
       }
     } finally {

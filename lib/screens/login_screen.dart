@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:threads_app/colors.dart';
 import 'package:threads_app/screens/register_screen.dart';
 import 'package:threads_app/services/auth_service.dart';
+import 'package:threads_app/widgets/snackbar_utils.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -26,9 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _handleLogin() async {
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please enter email and password")),
-      );
+      SnackbarUtils.showWarning(context, "Please enter email and password");
       return;
     }
 
@@ -43,17 +42,17 @@ class _LoginScreenState extends State<LoginScreen> {
       if (user == null) {
         if (mounted) {
           setState(() => _isLoading = false);
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Login failed. Check your credentials.")),
-          );
+          SnackbarUtils.showError(context, "Login failed. Check your credentials.");
+        }
+      } else {
+        if (mounted) {
+          SnackbarUtils.showSuccess(context, "Welcome back!");
         }
       }
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("An error occurred: $e")),
-        );
+        SnackbarUtils.showError(context, "An error occurred: $e");
       }
     }
   }
