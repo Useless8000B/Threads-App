@@ -71,7 +71,6 @@ class PerfilScreen extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      // Bio
                       const Text(
                         "Building minimalist interfaces at the intersection of void and function. Focusing on the beauty of the unspoken.",
                         style: TextStyle(color: Colors.white, fontSize: 15),
