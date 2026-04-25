@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:threads_app/colors.dart';
 import 'package:threads_app/screens/register_screen.dart';
+import 'package:threads_app/services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,6 +13,50 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  
+  final AuthService _authService = AuthService();
+  bool _isLoading = false;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleLogin() async {
+    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please enter email and password")),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      final user = await _authService.signIn(
+        _emailController.text.trim(),
+        _passwordController.text.trim(),
+      );
+
+      if (user == null) {
+        if (mounted) {
+          setState(() => _isLoading = false);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Login failed. Check your credentials.")),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("An error occurred: $e")),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const Icon(Icons.alternate_email, size: 80, color: Colors.white),
             const SizedBox(height: 40),
 
-            _buildTextField(_emailController, "Username, phone or email"),
+            _buildTextField(_emailController, "Email"),
             const SizedBox(height: 12),
             _buildTextField(_passwordController, "Password", isObscure: true),
 
@@ -36,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
               width: double.infinity,
               height: 50,
               child: ElevatedButton(
-                onPressed: () => print("Login"),
+                onPressed: _isLoading ? null : _handleLogin,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.black,
@@ -44,10 +89,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Text(
-                  "Log in",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
+                child: _isLoading
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(color: Colors.black, strokeWidth: 2),
+                      )
+                    : const Text(
+                        "Log in",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
               ),
             ),
 
@@ -93,11 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildTextField(
-    TextEditingController controller,
-    String hint, {
-    bool isObscure = false,
-  }) {
+  Widget _buildTextField(TextEditingController controller, String hint, {bool isObscure = false}) {
     return TextField(
       controller: controller,
       obscureText: isObscure,
@@ -107,10 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
         hintStyle: const TextStyle(color: Color(0xFF666666)),
         filled: true,
         fillColor: const Color(0xFF121212),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 16,
-        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(color: Color(0xFF1F1F1F)),
