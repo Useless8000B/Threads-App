@@ -1,7 +1,8 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:threads_app/colors.dart';
+import 'package:threads_app/models/post_model.dart';
+import 'package:threads_app/services/auth_service.dart';
+import 'package:threads_app/services/post_service.dart';
 
 class AddScreen extends StatefulWidget {
   const AddScreen({super.key});
@@ -12,21 +13,10 @@ class AddScreen extends StatefulWidget {
 
 class _AddScreenState extends State<AddScreen> {
   final TextEditingController _controller = TextEditingController();
-  File? _imageFile;
-  final ImagePicker _picker = ImagePicker();
+  final AuthService _authService = AuthService();
 
-  Future<void> _pickImage() async {
-    final XFile? pickedFile = await _picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 80,
-    );
 
-    if (pickedFile != null) {
-      setState(() {
-        _imageFile = File(pickedFile.path);
-      });
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +61,7 @@ class _AddScreenState extends State<AddScreen> {
                 ),
               ),
               const SizedBox(width: 12),
-        
+
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,10 +77,7 @@ class _AddScreenState extends State<AddScreen> {
                       controller: _controller,
                       autofocus: true,
                       maxLines: null,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
                       decoration: const InputDecoration(
                         hintText: "What's new?",
                         hintStyle: TextStyle(color: Color(0xFF666666)),
@@ -100,67 +87,41 @@ class _AddScreenState extends State<AddScreen> {
                       ),
                     ),
 
-                    if (_imageFile != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 12.0, right: 16),
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.file(
-                                _imageFile!,
-                                height: 300,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Positioned(
-                              top: 8,
-                              right: 8,
-                              child: GestureDetector(
-                                onTap: () => setState(() => _imageFile = null),
-                                child: Container(
-                                  padding: const EdgeInsets.all(4),
-                                  decoration: const BoxDecoration(
-                                    color: Colors.black54,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: const Icon(Icons.close, color: Colors.white, size: 18),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+
 
                     const SizedBox(height: 16),
                     Row(
                       children: [
-                        GestureDetector(
-                          onTap: _pickImage,
-                          child: Icon(
-                            Icons.image_outlined,
-                            color: _imageFile != null ? Colors.blue : const Color(0xFF666666),
-                            size: 22,
-                          ),
+
+                        const Icon(
+                          Icons.gif_box_outlined,
+                          color: Color(0xFF666666),
+                          size: 22,
                         ),
                         const SizedBox(width: 20),
-                        const Icon(Icons.gif_box_outlined, color: Color(0xFF666666), size: 22),
+                        const Icon(
+                          Icons.list_alt_rounded,
+                          color: Color(0xFF666666),
+                          size: 22,
+                        ),
                         const SizedBox(width: 20),
-                        const Icon(Icons.list_alt_rounded, color: Color(0xFF666666), size: 22),
+                        const Icon(
+                          Icons.mic_none,
+                          color: Color(0xFF666666),
+                          size: 22,
+                        ),
                         const SizedBox(width: 20),
-                        const Icon(Icons.mic_none, color: Color(0xFF666666), size: 22),
-                        const SizedBox(width: 20),
-                        const Icon(Icons.tag, color: Color(0xFF666666), size: 22),
+                        const Icon(
+                          Icons.tag,
+                          color: Color(0xFF666666),
+                          size: 22,
+                        ),
                       ],
                     ),
                     const SizedBox(height: 32),
                     const Text(
                       "Add to thread",
-                      style: TextStyle(
-                        color: Color(0x66666666),
-                        fontSize: 14,
-                      ),
+                      style: TextStyle(color: Color(0x66666666), fontSize: 14),
                     ),
                   ],
                 ),
@@ -184,9 +145,33 @@ class _AddScreenState extends State<AddScreen> {
               style: TextStyle(color: Color(0xFF666666), fontSize: 14),
             ),
             ElevatedButton(
-              onPressed: () {
-                print("Postar: ${_controller.text}");
-                if (_imageFile != null) print("Com imagem: ${_imageFile!.path}");
+              onPressed: () async {
+                final text = _controller.text;
+                if (text.isEmpty) return;
+
+                try {
+                  final user = _authService.currentUser;
+
+                  if (user == null) return;
+
+                  final userData = await _authService.getUserData(user.uid);
+                  final username = userData['username'] ?? "user";
+
+                  final newPost = PostModel(
+                    uid: user.uid,
+                    username: username,
+                    text: _controller.text,
+                  );
+
+                  final PostService postService = PostService();
+                  bool success = await postService.createPost(newPost);
+
+                  if(success) {
+                    print("Success");
+                  }
+                } catch (error) {
+                  print("Hey: $error");
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
