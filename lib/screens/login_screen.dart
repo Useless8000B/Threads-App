@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:threads_app/colors.dart';
 import 'package:threads_app/screens/register_screen.dart';
 import 'package:threads_app/services/auth_service.dart';
 import 'package:threads_app/widgets/snackbar_utils.dart';
@@ -60,7 +59,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.black,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
