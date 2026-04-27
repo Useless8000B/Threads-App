@@ -151,7 +151,7 @@ class _AddScreenState extends State<AddScreen> {
                   if (user == null) return;
 
                   final userData = await _authService.getUserData(user.uid);
-                  final username = userData['username'] ?? "user";
+                  final username = userData?['username'] ?? "user";
 
                   final newPost = PostModel(
                     uid: user.uid,
