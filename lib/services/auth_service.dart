@@ -50,9 +50,18 @@ class AuthService {
     await _auth.signOut();
   }
 
-  Future<DocumentSnapshot> getUserData(String uid) async {
-    return await _firestore.collection('users').doc(uid).get();
+  Future<Map<String, dynamic>?> getUserData(String uid) async {
+    DocumentSnapshot snapshot = await _firestore
+        .collection('users')
+        .doc(uid)
+        .get();
+
+    if (snapshot.exists) {
+      return snapshot.data() as Map<String, dynamic>?;
+    }
+
+    return null;
   }
 
-  User? get currentUser => _auth.currentUser; 
+  User? get currentUser => _auth.currentUser;
 }
