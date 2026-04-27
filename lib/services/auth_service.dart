@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:http/http.dart' as http;
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Stream<User?> get user => _auth.authStateChanges();
+
+  static const String _baseUrl = String.fromEnvironment("API_URL");
 
   Future<UserCredential?> signUp(
     String email,
@@ -19,17 +24,29 @@ class AuthService {
         password: password,
       );
 
-      await _firestore.collection('users').doc(credential.user!.uid).set({
-        'uid': credential.user!.uid,
-        'username': username.toLowerCase(),
-        'fullName': fullName,
-        'email': email,
-        'bio': '',
-        'photoUrl': '',
-        'createdAt': FieldValue.serverTimestamp(),
-      });
+      String? token = await credential.user?.getIdToken();
 
-      return credential;
+      if (token == null) throw Exception("Failed to get token");
+
+      final response = await http.post(
+        Uri.parse("$_baseUrl/register"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          'username': username.toLowerCase(),
+          'fullName': fullName,
+          'email': email,
+        }),
+      );
+
+      if (response.statusCode == 201) {
+        return credential;
+      } else {
+        await credential.user?.delete();
+        return null;
+      }
     } catch (e) {
       return null;
     }
