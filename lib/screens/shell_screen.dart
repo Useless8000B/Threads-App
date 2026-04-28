@@ -16,19 +16,24 @@ class ShellScreen extends StatefulWidget {
 
 class _ShellScreenState extends State<ShellScreen> {
   int currentIndex = 0;
-
-  final List<Widget> _pages = const [
-    HomeScreen(),
-    InboxScreen(),
-    AddScreen(),
-    LikedScreen(),
-    PerfilScreen()
-  ];
+  late List<Widget> _pages;
 
   void navigate(int index) {
     setState(() {
       currentIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _pages = [
+      HomeScreen(onNavigateToPost: () => navigate(2)),
+      const InboxScreen(),
+      const AddScreen(),
+      const LikedScreen(),
+      const PerfilScreen(),
+    ];
   }
 
   @override
