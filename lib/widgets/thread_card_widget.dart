@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
 class ThreadCardWidget extends StatelessWidget {
   final String userName;
@@ -71,7 +72,7 @@ class ThreadCardWidget extends StatelessWidget {
                         children: [
                           Text(_formatTimeAgo(timeAgo), style: const TextStyle(color: Colors.grey, fontSize: 12)),
                           const SizedBox(width: 10),
-                          const Icon(Icons.more_horiz, color: Colors.grey, size: 20),
+                          const Icon(TablerIcons.dots, color: Colors.grey, size: 20),
                         ],
                       ),
                     ],
@@ -81,13 +82,13 @@ class ThreadCardWidget extends StatelessWidget {
                   const SizedBox(height: 12),
                   const Row(
                     children: [
-                      Icon(Icons.favorite_border, color: Colors.white, size: 22),
+                      Icon(TablerIcons.heart, color: Colors.white, size: 22),
                       SizedBox(width: 16),
-                      Icon(Icons.chat_bubble_outline, color: Colors.white, size: 22),
+                      Icon(TablerIcons.message, color: Colors.white, size: 22),
                       SizedBox(width: 16),
-                      Icon(Icons.repeat, color: Colors.white, size: 22),
+                      Icon(TablerIcons.repeat, color: Colors.white, size: 22),
                       SizedBox(width: 16),
-                      Icon(Icons.send_outlined, color: Colors.white, size: 22),
+                      Icon(TablerIcons.send_2, color: Colors.white, size: 22),
                     ],
                   ),
                   Padding(
