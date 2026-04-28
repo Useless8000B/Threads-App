@@ -81,4 +81,6 @@ class AuthService {
   }
 
   User? get currentUser => _auth.currentUser;
+
+  Future<String?> get token async => await _auth.currentUser?.getIdToken();
 }
