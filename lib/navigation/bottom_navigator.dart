@@ -19,8 +19,7 @@ class BottomNavigator extends StatelessWidget {
       indicatorColor: Colors.transparent,
       destinations: const [
         NavigationDestination(
-          icon: Icon(Icons.home),
-          selectedIcon: Icon(TablerIcons.home),
+          icon: Icon(TablerIcons.home),
           label: 'Home',
         ),
         NavigationDestination(
