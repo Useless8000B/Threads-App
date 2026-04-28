@@ -6,7 +6,8 @@ import 'package:threads_app/widgets/thread_card_widget.dart';
 import 'package:threads_app/widgets/thread_input_preview_widget.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final VoidCallback onNavigateToPost;
+  const HomeScreen({super.key, required this.onNavigateToPost});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -63,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
               itemCount: posts.length + 1,
               itemBuilder: (context, index) {
                 if (index == 0) {
-                  return const ThreadInputPreviewWidget();
+                  return ThreadInputPreviewWidget(onTap: widget.onNavigateToPost,);
                 }
 
                 final post = posts[index - 1];
