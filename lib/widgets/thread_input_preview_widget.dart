@@ -31,7 +31,7 @@ class ThreadInputPreviewWidget extends StatelessWidget {
                 children: [
                   const Text(
                     "What's new?",
-                    style: TextStyle(color: Color(0xFF757575), fontSize: 15),
+                    style: TextStyle(color: AppColors.grey, fontSize: 15),
                   ),
                   const SizedBox(height: 16),
                   Row(
@@ -53,13 +53,13 @@ class ThreadInputPreviewWidget extends StatelessWidget {
   Widget _buildActionIcons() {
     return const Row(
       children: [
-        Icon(Icons.image_outlined, color: Color(0xFF757575), size: 20),
+        Icon(Icons.image_outlined, color: AppColors.grey, size: 20),
         SizedBox(width: 16),
-        Icon(Icons.gif_box_outlined, color: Color(0xFF757575), size: 20),
+        Icon(Icons.gif_box_outlined, color: AppColors.grey, size: 20),
         SizedBox(width: 16),
-        Icon(Icons.list, color: Color(0xFF757575), size: 20),
+        Icon(Icons.list, color: AppColors.grey, size: 20),
         SizedBox(width: 16),
-        Icon(Icons.mic_none, color: Color(0xFF757575), size: 20),
+        Icon(Icons.mic_none, color: AppColors.grey, size: 20),
       ],
     );
   }
