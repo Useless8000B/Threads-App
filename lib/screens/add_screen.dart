@@ -15,6 +15,29 @@ class AddScreen extends StatefulWidget {
 class _AddScreenState extends State<AddScreen> {
   final TextEditingController _controller = TextEditingController();
   final AuthService _authService = AuthService();
+  String _username = "";
+  String _profilePic = "https://lh3.googleusercontent.com/aida-public/AB6AXuAfL31xZ1gxZ5rovFeRcOhRg6Y1YS5ozmIYQp8uZiS7mw0GqTSOiWz5sUW4sNC-7bN8a0Wkylnaja7eYYeQmsuISLMdPBRoWlFZKTI67G6iKQVtymMeXtUOzZOLWNunjevw57RUS0msfz44SgfLql8o3T8X9cNEiYr_fVGhrpdekkIXQJpXLvi6UJwLKOURlfZf95ZpGHT4WnwIGk33iKG9Gs-493qSXW1W3f6I1WhkYys5Z2ckkZ0j6PND-KW7vveJivCkO3_WxwU";
+  bool _isLoadingUser = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final user = _authService.currentUser;
+    if (user != null) {
+      final userData = await _authService.getUserData(user.uid);
+      if (mounted) {
+        setState(() {
+          _username = userData?['username'] ?? "user";
+          _profilePic = userData?['photoUrl'] ?? _profilePic;
+          _isLoadingUser = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +87,9 @@ class _AddScreenState extends State<AddScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "zé_preto",
-                      style: TextStyle(
+                    Text(
+                      _isLoadingUser ? "" : _username,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
@@ -88,7 +111,6 @@ class _AddScreenState extends State<AddScreen> {
                     const SizedBox(height: 16),
                     Row(
                       children: [
-
                         const Icon(
                           Icons.gif_box_outlined,
                           color: Color(0xFF666666),
@@ -164,17 +186,25 @@ class _AddScreenState extends State<AddScreen> {
 
                   if (success) {
                     if (mounted) {
-                      SnackbarUtils.showSuccess(context, "Post created successfully!");
-                      Navigator.pop(context);
+                      SnackbarUtils.showSuccess(
+                        context,
+                        "Post created successfully!",
+                      );
                     }
                   } else {
                     if (mounted) {
-                      SnackbarUtils.showError(context, "Failed to create post.");
+                      SnackbarUtils.showError(
+                        context,
+                        "Failed to create post.",
+                      );
                     }
                   }
                 } catch (error) {
                   if (mounted) {
-                    SnackbarUtils.showError(context, "An error occurred: $error");
+                    SnackbarUtils.showError(
+                      context,
+                      "An error occurred: $error",
+                    );
                   }
                 }
               },
