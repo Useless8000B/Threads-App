@@ -9,7 +9,6 @@ class LikedScreen extends StatelessWidget {
     final List<String> filters = ["All", "Replies", "Mentions", "Quotes", "Reposts", "Verified"];
 
     return Scaffold(
-      backgroundColor: Colors.black,
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(

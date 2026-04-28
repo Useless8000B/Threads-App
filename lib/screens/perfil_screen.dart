@@ -66,7 +66,6 @@ class _PerfilScreenState extends State<PerfilScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       body: FutureBuilder<Map<String, dynamic>?>(
         future: _userDataFuture,
         builder: (context, snapshot) {
