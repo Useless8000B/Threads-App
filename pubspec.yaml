@@ -43,6 +43,7 @@ dependencies:
   uuid: ^4.5.3
   flutter_tabler_icons: ^1.43.0
   image_picker: ^1.2.1
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
@@ -96,3 +97,9 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/logo.png"
+  adptative_background_color: "#000000"
+  min_sdk_android: 21
