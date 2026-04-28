@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
 class BottomNavigator extends StatelessWidget {
   final int currentIndex;
@@ -19,23 +20,23 @@ class BottomNavigator extends StatelessWidget {
       destinations: const [
         NavigationDestination(
           icon: Icon(Icons.home),
-          selectedIcon: Icon(Icons.home),
+          selectedIcon: Icon(TablerIcons.home),
           label: 'Home',
         ),
         NavigationDestination(
-          icon: Icon(Icons.email),
+          icon: Icon(TablerIcons.mail),
           label: 'Inbox'
         ),
         NavigationDestination(
-          icon: Icon(Icons.add),
+          icon: Icon(TablerIcons.message_2_plus),
           label: 'add'
         ),
         NavigationDestination(
-          icon: Icon(Icons.thumb_up),
+          icon: Icon(TablerIcons.heart),
           label: 'liked'
         ),
         NavigationDestination(
-          icon: Icon(Icons.person),
+          icon: Icon(TablerIcons.user),
           label: 'profile'
         ),
       ],
