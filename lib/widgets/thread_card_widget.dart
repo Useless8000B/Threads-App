@@ -80,24 +80,7 @@ class ThreadCardWidget extends StatelessWidget {
                   Text(content, style: const TextStyle(color: Colors.white, fontSize: 15, height: 1.3)),
 
                   const SizedBox(height: 12),
-                  const Row(
-                    children: [
-                      Icon(TablerIcons.heart, color: Colors.white, size: 22),
-                      SizedBox(width: 16),
-                      Icon(TablerIcons.message, color: Colors.white, size: 22),
-                      SizedBox(width: 16),
-                      Icon(TablerIcons.repeat, color: Colors.white, size: 22),
-                      SizedBox(width: 16),
-                      Icon(TablerIcons.send_2, color: Colors.white, size: 22),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: Text(
-                      "$replies replies · $likes likes",
-                      style: const TextStyle(color: Color(0xFF757575), fontSize: 13),
-                    ),
-                  ),
+                  ThreadActions(initialLikes: likes),
                   const Divider(color: Color(0xFF1F1F1F), height: 1),
                 ],
               ),
@@ -105,6 +88,77 @@ class ThreadCardWidget extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class ThreadActions extends StatefulWidget {
+  final int initialLikes;
+  const ThreadActions({super.key, required this.initialLikes});
+
+  @override
+  State<ThreadActions> createState() => _ThreadActionsState();
+}
+
+class _ThreadActionsState extends State<ThreadActions> {
+  bool isLiked = false;
+  late int likesCount;
+  double _scale = 1.0;
+
+  @override
+  void initState() {
+    super.initState();
+    likesCount = widget.initialLikes;
+  }
+
+  void _toggleLike() {
+    setState(() {
+      isLiked = !isLiked;
+      isLiked ? likesCount++ : likesCount--;
+      _scale = 1.3;
+    });
+
+    Future.delayed(const Duration(milliseconds: 100), () {
+      setState(() {
+        _scale = 1.0;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            GestureDetector(
+              onTap: _toggleLike,
+              child: AnimatedScale(
+                scale: _scale,
+                duration: const Duration(milliseconds: 100),
+                curve: Curves.easeInOut,
+                child: Icon(
+                  isLiked ? TablerIcons.heart_filled : TablerIcons.heart,
+                  color: isLiked ? Colors.red : Colors.white,
+                  size: 22,
+                ),
+              ),
+            ),
+            const SizedBox(width: 16),
+            const Icon(TablerIcons.message, color: Colors.white, size: 22),
+            const SizedBox(width: 16),
+            const Icon(TablerIcons.repeat, color: Colors.white, size: 22),
+            const SizedBox(width: 16),
+            const Icon(TablerIcons.send_2, color: Colors.white, size: 22),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Text(
+          "0 replies · $likesCount likes",
+          style: const TextStyle(color: Color(0xFF757575), fontSize: 13),
+        ),
+      ],
     );
   }
 }
