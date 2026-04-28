@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:threads_app/colors.dart';
 import 'package:threads_app/models/post_model.dart';
 import 'package:threads_app/services/auth_service.dart';
 import 'package:threads_app/services/post_service.dart';
