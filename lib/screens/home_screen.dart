@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:threads_app/colors.dart';
 import 'package:threads_app/models/post_model.dart';
 import 'package:threads_app/services/post_service.dart';
 import 'package:threads_app/widgets/thread_card_widget.dart';
@@ -32,20 +33,20 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: _refreshPosts,
-        color: Colors.white,
+        color: AppColors.white,
         backgroundColor: Colors.grey[900],
         child: FutureBuilder<List<PostModel>>(
           future: _postsFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator(color: Colors.white));
+              return const Center(child: CircularProgressIndicator(color: AppColors.white));
             }
 
             if (snapshot.hasError) {
               return Center(
                 child: Text(
                   "Error loading posts: ${snapshot.error}",
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: AppColors.white),
                 ),
               );
             }
@@ -54,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             if (posts.isEmpty) {
               return const Center(
-                child: Text("No posts", style: TextStyle(color: Colors.white)),
+                child: Text("No posts", style: TextStyle(color: AppColors.white)),
               );
             }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:threads_app/colors.dart';
 import 'package:threads_app/models/post_model.dart';
 import 'package:threads_app/services/auth_service.dart';
 import 'package:threads_app/services/post_service.dart';
@@ -66,7 +67,9 @@ class _AddScreenState extends State<AddScreen> {
                         ),
                       ),
                     ),
+
                     const SizedBox(height: 8),
+
                     const Opacity(
                       opacity: 0.3,
                       child: CircleAvatar(
@@ -79,6 +82,7 @@ class _AddScreenState extends State<AddScreen> {
                   ],
                 ),
               ),
+
               const SizedBox(width: 12),
 
               Expanded(
@@ -88,7 +92,7 @@ class _AddScreenState extends State<AddScreen> {
                     Text(
                       _isLoadingUser ? "" : _username,
                       style: const TextStyle(
-                        color: Colors.white,
+                        color: AppColors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -96,7 +100,7 @@ class _AddScreenState extends State<AddScreen> {
                       controller: _controller,
                       autofocus: true,
                       maxLines: null,
-                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                      style: const TextStyle(color: AppColors.white, fontSize: 16),
                       decoration: const InputDecoration(
                         hintText: "What's new?",
                         hintStyle: TextStyle(color: Color(0xFF666666)),
@@ -207,8 +211,8 @@ class _AddScreenState extends State<AddScreen> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black,
+                backgroundColor: AppColors.white,
+                foregroundColor: AppColors.black,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
