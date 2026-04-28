@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:threads_app/colors.dart';
 
 class ThreadInputPreviewWidget extends StatelessWidget {
   final VoidCallback onTap;
@@ -10,7 +11,7 @@ class ThreadInputPreviewWidget extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       splashColor: Colors.transparent,
-      highlightColor: Colors.white.withValues(alpha: 0.05),
+      highlightColor: AppColors.white.withValues(alpha: 0.05),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
         decoration: const BoxDecoration(
@@ -67,8 +68,8 @@ class ThreadInputPreviewWidget extends StatelessWidget {
     return ElevatedButton(
       onPressed: null,
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        disabledBackgroundColor: Colors.white.withValues(alpha: 0.5),
+        backgroundColor: AppColors.white,
+        disabledBackgroundColor: AppColors.white.withValues(alpha: 0.5),
         foregroundColor: Colors.black,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
