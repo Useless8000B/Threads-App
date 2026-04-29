@@ -6,6 +6,7 @@ class PostModel {
   final String username;
   final String? text;
   final DateTime? createdAt;
+  final String? profilePic;
 
   PostModel({
     this.id,
@@ -13,6 +14,7 @@ class PostModel {
     required this.username,
     this.text,
     this.createdAt,
+    this.profilePic,
   });
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
@@ -21,6 +23,7 @@ class PostModel {
       uid: json['uid'] ?? '',
       username: json['username'] ?? '',
       text: json['text'] ?? '',
+      profilePic: json['profilePic'],
       createdAt: json['createdAt'] != null 
           ? DateTime.tryParse(json['createdAt'].toString()) 
           : null,
@@ -32,6 +35,7 @@ class PostModel {
       'uid': uid,
       'username': username,
       'text': text,
+      'profilePic': profilePic,
     };
   }
 
@@ -42,6 +46,7 @@ class PostModel {
       uid: data['uid'] ?? '',
       username: data['username'] ?? '',
       text: data['text'] ?? '',
+      profilePic: data['profilePic'],
       createdAt: (data['createdAt'] as Timestamp?)?.toDate(),
     );
   }
