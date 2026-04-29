@@ -48,9 +48,13 @@ class ThreadCardWidget extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 20,
-                  backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl!) : null,
+                  backgroundImage: avatarUrl != null
+                      ? NetworkImage(avatarUrl!)
+                      : null,
                   backgroundColor: const Color(0xFF2A2A2A),
-                  child: avatarUrl == null ? const Icon(Icons.person, color: Colors.white54) : null,
+                  child: avatarUrl == null
+                      ? const Icon(Icons.person, color: Colors.white54)
+                      : null,
                 ),
                 const SizedBox(height: 8),
                 Expanded(
@@ -67,17 +71,92 @@ class ThreadCardWidget extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(userName, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                      Text(
+                        userName,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
                       Row(
                         children: [
-                          Text(_formatTimeAgo(timeAgo), style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                          Text(
+                            _formatTimeAgo(timeAgo),
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12,
+                            ),
+                          ),
                           const SizedBox(width: 10),
-                          const Icon(TablerIcons.dots, color: Colors.grey, size: 20),
+
+                          PopupMenuButton<String>(
+                            icon: const Icon(
+                              TablerIcons.dots,
+                              color: Colors.grey,
+                              size: 20,
+                            ),
+                            color: const Color(
+                              0xFF2A2A2A,
+                            ),
+                            padding: EdgeInsets.zero,
+                            constraints: const BoxConstraints(
+                              minWidth: 120,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            onSelected: (value) {
+                              if (value == 'edit') {} else if (value == 'delete') {}
+                            },
+                            itemBuilder: (context) => [
+                              const PopupMenuItem(
+                                value: 'edit',
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.edit_outlined,
+                                      color: Colors.white,
+                                      size: 18,
+                                    ),
+                                    SizedBox(width: 12),
+                                    Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const PopupMenuItem(
+                                value: 'delete',
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.delete_outline,
+                                      color: Colors.redAccent,
+                                      size: 18,
+                                    ),
+                                    SizedBox(width: 12),
+                                    Text(
+                                      'Delete',
+                                      style: TextStyle(color: Colors.redAccent),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ],
                   ),
-                  Text(content, style: const TextStyle(color: Colors.white, fontSize: 15, height: 1.3)),
+                  Text(
+                    content,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      height: 1.3,
+                    ),
+                  ),
 
                   const SizedBox(height: 12),
                   ThreadActions(initialLikes: likes),
