@@ -18,107 +18,105 @@ class InboxTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {},
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        child: Row(
-          children: [
-            Stack(
-              children: [
-                CircleAvatar(
-                  radius: 26,
-                  backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl!) : null,
-                  backgroundColor: const Color(0xFF1F1F1F),
-                  child: avatarUrl == null ? const Icon(Icons.person, color: Colors.grey) : null,
-                ),
-                if (isUnread)
-                  Positioned(
-                    right: 0,
-                    top: 0,
-                    child: Container(
-                      width: 14,
-                      height: 14,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Container(
-                          width: 8,
-                          height: 8,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFF049AEB),
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-            const SizedBox(width: 16),
-
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.only(bottom: 12),
-                decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: Color(0xFF1F1F1F), width: 0.5),
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          userName,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                        Text(
-                          timeAgo,
-                          style: const TextStyle(color: Colors.grey, fontSize: 13),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            lastMessage,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: isUnread ? Colors.white : Colors.grey,
-                              fontWeight: isUnread ? FontWeight.w600 : FontWeight.normal,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ),
-                        if (isUnread)
-                          Container(
-                            margin: const EdgeInsets.only(left: 8),
-                            width: 8,
-                            height: 8,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFF049AEB),
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                      ],
-                    ),
-                  ],
+    return Column(
+      children: [
+        ListTile(
+          onTap: () {},
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          leading: _buildAvatar(),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                userName,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
                 ),
               ),
+              Text(
+                timeAgo,
+                style: const TextStyle(color: Colors.grey, fontSize: 13),
+              ),
+            ],
+          ),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 4.0),
+            child: Text(
+              lastMessage,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: isUnread ? Colors.white : Colors.grey,
+                fontWeight: isUnread ? FontWeight.w600 : FontWeight.normal,
+                fontSize: 14,
+              ),
             ),
-          ],
+          ),
+          trailing: isUnread ? _buildUnreadDot() : null,
+        ),
+        const Divider(
+          color: Color(0xFF1F1F1F),
+          thickness: 0.5,
+          indent: 80,
+          height: 1,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAvatar() {
+    return Stack(
+      children: [
+        CircleAvatar(
+          radius: 26,
+          backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl!) : null,
+          backgroundColor: const Color(0xFF1F1F1F),
+          child: avatarUrl == null 
+              ? const Icon(Icons.person, color: Colors.grey) 
+              : null,
+        ),
+        if (isUnread)
+          Positioned(
+            right: 0,
+            top: 0,
+            child: _buildNotificationBadge(),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildNotificationBadge() {
+    return Container(
+      width: 14,
+      height: 14,
+      decoration: const BoxDecoration(
+        color: Colors.black,
+        shape: BoxShape.circle,
+      ),
+      alignment: Alignment.center,
+      child: const SizedBox(
+        width: 8,
+        height: 8,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Color(0xFF049AEB),
+            shape: BoxShape.circle,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildUnreadDot() {
+    return const SizedBox(
+      width: 8,
+      height: 8,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: Color(0xFF049AEB),
+          shape: BoxShape.circle,
         ),
       ),
     );
