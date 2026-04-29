@@ -24,8 +24,7 @@ class PostService {
       if (response.statusCode == 201 || response.statusCode == 200) {
         return true;
       } else {
-        print("Erro ao criar: ${response.statusCode} - ${response.body}");
-        return false;
+        throw Exception("Error creating post");
       }
     } catch (e) {
       return false;
@@ -79,6 +78,30 @@ class PostService {
       return [];
     } catch (e) {
       return [];
+    }
+  }
+
+  Future<bool> deletePost(String postId) async {
+    try {
+      String? token = await FirebaseAuth.instance.currentUser?.getIdToken();
+
+      if (token == null) return false;
+
+      final response = await http.delete(
+        Uri.parse("$_baseUrl/posts/$postId"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token",
+        },
+      );
+
+      if (response.statusCode == 204 || response.statusCode == 200) {
+        return true;
+      } else {
+        throw Exception("Error deleting post");
+      }
+    } catch (e) {
+      throw Exception("Connection error");
     }
   }
 }
