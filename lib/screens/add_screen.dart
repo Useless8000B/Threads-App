@@ -16,7 +16,7 @@ class _AddScreenState extends State<AddScreen> {
   final TextEditingController _controller = TextEditingController();
   final AuthService _authService = AuthService();
   String _username = "";
-  String _profilePic = "https://lh3.googleusercontent.com/aida-public/AB6AXuAfL31xZ1gxZ5rovFeRcOhRg6Y1YS5ozmIYQp8uZiS7mw0GqTSOiWz5sUW4sNC-7bN8a0Wkylnaja7eYYeQmsuISLMdPBRoWlFZKTI67G6iKQVtymMeXtUOzZOLWNunjevw57RUS0msfz44SgfLql8o3T8X9cNEiYr_fVGhrpdekkIXQJpXLvi6UJwLKOURlfZf95ZpGHT4WnwIGk33iKG9Gs-493qSXW1W3f6I1WhkYys5Z2ckkZ0j6PND-KW7vveJivCkO3_WxwU";
+  String _profilePic = "";
   bool _isLoadingUser = true;
 
   @override
@@ -51,11 +51,9 @@ class _AddScreenState extends State<AddScreen> {
               IntrinsicHeight(
                 child: Column(
                   children: [
-                    const CircleAvatar(
+                    CircleAvatar(
                       radius: 20,
-                      backgroundImage: NetworkImage(
-                        "https://lh3.googleusercontent.com/aida-public/AB6AXuAfL31xZ1gxZ5rovFeRcOhRg6Y1YS5ozmIYQp8uZiS7mw0GqTSOiWz5sUW4sNC-7bN8a0Wkylnaja7eYYeQmsuISLMdPBRoWlFZKTI67G6iKQVtymMeXtUOzZOLWNunjevw57RUS0msfz44SgfLql8o3T8X9cNEiYr_fVGhrpdekkIXQJpXLvi6UJwLKOURlfZf95ZpGHT4WnwIGk33iKG9Gs-493qSXW1W3f6I1WhkYys5Z2ckkZ0j6PND-KW7vveJivCkO3_WxwU",
-                      ),
+                      backgroundImage: NetworkImage(_profilePic),
                     ),
                     const SizedBox(height: 8),
                     Expanded(
@@ -103,7 +101,7 @@ class _AddScreenState extends State<AddScreen> {
                       style: const TextStyle(color: AppColors.white, fontSize: 16),
                       decoration: const InputDecoration(
                         hintText: "What's new?",
-                        hintStyle: TextStyle(color: Color(0xFF666666)),
+                        hintStyle: TextStyle(color: AppColors.grey_1),
                         border: InputBorder.none,
                         isDense: true,
                         contentPadding: EdgeInsets.symmetric(vertical: 8),
@@ -111,33 +109,6 @@ class _AddScreenState extends State<AddScreen> {
                     ),
 
                     const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.gif_box_outlined,
-                          color: Color(0xFF666666),
-                          size: 22,
-                        ),
-                        const SizedBox(width: 20),
-                        const Icon(
-                          Icons.list_alt_rounded,
-                          color: Color(0xFF666666),
-                          size: 22,
-                        ),
-                        const SizedBox(width: 20),
-                        const Icon(
-                          Icons.mic_none,
-                          color: Color(0xFF666666),
-                          size: 22,
-                        ),
-                        const SizedBox(width: 20),
-                        const Icon(
-                          Icons.tag,
-                          color: Color(0xFF666666),
-                          size: 22,
-                        ),
-                      ],
-                    ),
                     const SizedBox(height: 32),
                     const Text(
                       "Add to thread",
@@ -162,7 +133,7 @@ class _AddScreenState extends State<AddScreen> {
           children: [
             const Text(
               "Anyone can reply",
-              style: TextStyle(color: Color(0xFF666666), fontSize: 14),
+              style: TextStyle(color: AppColors.grey_1, fontSize: 14),
             ),
             ElevatedButton(
               onPressed: () async {
