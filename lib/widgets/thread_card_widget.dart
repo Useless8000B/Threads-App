@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
+import 'package:threads_app/services/post_service.dart';
+import 'package:threads_app/widgets/snackbar_utils.dart';
 
 class ThreadCardWidget extends StatelessWidget {
+  final String postId;
   final String userName;
   final String content;
   final DateTime? timeAgo;
   final String? avatarUrl;
   final int replies;
   final int likes;
+  final VoidCallback? onDelete;
 
   const ThreadCardWidget({
     super.key,
+    required this.postId,
     required this.userName,
     required this.content,
     required this.timeAgo,
     this.avatarUrl,
     this.replies = 0,
     this.likes = 0,
+    this.onDelete,
   });
 
   String _formatTimeAgo(DateTime? dateTime) {
@@ -95,18 +101,64 @@ class ThreadCardWidget extends StatelessWidget {
                               color: Colors.grey,
                               size: 20,
                             ),
-                            color: const Color(
-                              0xFF2A2A2A,
-                            ),
+                            color: const Color(0xFF2A2A2A),
                             padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(
-                              minWidth: 120,
-                            ),
+                            constraints: const BoxConstraints(minWidth: 120),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            onSelected: (value) {
-                              if (value == 'edit') {} else if (value == 'delete') {}
+                            onSelected: (value) async {
+                              if (value == 'edit') {
+                                // TODO Implement edit
+                              } else if (value == 'delete') {
+                                final confirm = await showDialog<bool>(
+                                  context: context,
+                                  builder: (ctx) => AlertDialog(
+                                    backgroundColor: const Color(0xFF181818),
+                                    title: const Text(
+                                      "Delete post?",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    content: const Text(
+                                      "This action cannot be undone.",
+                                      style: TextStyle(color: Colors.grey),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(ctx, false),
+                                        child: const Text(
+                                          "Cancel",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(ctx, true),
+                                        child: const Text(
+                                          "Delete",
+                                          style: TextStyle(
+                                            color: Colors.redAccent,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+
+                                if (confirm == true) {
+                                  final postService = PostService();
+                                  bool success = await postService.deletePost(
+                                    postId,
+                                  );
+
+                                  if (success) {
+                                    onDelete?.call();
+                                  } else {
+                                    SnackbarUtils.showError(context, "You can only delete your own posts.");
+                                  }
+                                }
+                              }
                             },
                             itemBuilder: (context) => [
                               const PopupMenuItem(
