@@ -37,7 +37,6 @@ class ThreadInputPreviewWidget extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _buildActionIcons(),
                       _buildPostButton(),
                     ],
                   )
@@ -47,20 +46,6 @@ class ThreadInputPreviewWidget extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildActionIcons() {
-    return const Row(
-      children: [
-        Icon(Icons.image_outlined, color: AppColors.grey, size: 20),
-        SizedBox(width: 16),
-        Icon(Icons.gif_box_outlined, color: AppColors.grey, size: 20),
-        SizedBox(width: 16),
-        Icon(Icons.list, color: AppColors.grey, size: 20),
-        SizedBox(width: 16),
-        Icon(Icons.mic_none, color: AppColors.grey, size: 20),
-      ],
     );
   }
 
