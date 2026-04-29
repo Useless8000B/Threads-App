@@ -40,7 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
           future: _postsFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator(color: AppColors.white));
+              return const Center(
+                child: CircularProgressIndicator(color: AppColors.white),
+              );
             }
 
             if (snapshot.hasError) {
@@ -56,7 +58,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
             if (posts.isEmpty) {
               return const Center(
-                child: Text("No posts", style: TextStyle(color: AppColors.white)),
+                child: Text(
+                  "No posts",
+                  style: TextStyle(color: AppColors.white),
+                ),
               );
             }
 
@@ -64,18 +69,24 @@ class _HomeScreenState extends State<HomeScreen> {
               itemCount: posts.length + 1,
               itemBuilder: (context, index) {
                 if (index == 0) {
-                  return ThreadInputPreviewWidget(onTap: widget.onNavigateToPost,);
+                  return ThreadInputPreviewWidget(
+                    onTap: widget.onNavigateToPost,
+                  );
                 }
 
                 final post = posts[index - 1];
 
                 return ThreadCardWidget(
+                  postId: post.id ?? '',
                   userName: post.username,
                   content: post.text ?? "",
-                  timeAgo: post.createdAt, 
+                  timeAgo: post.createdAt,
                   replies: 0,
                   likes: 0,
-                  avatarUrl: null,
+                  avatarUrl: post.profilePic,
+                  onDelete: () {
+                    _refreshPosts();
+                  },
                 );
               },
             );
