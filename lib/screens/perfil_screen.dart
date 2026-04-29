@@ -86,7 +86,9 @@ class _PerfilScreenState extends State<PerfilScreen> {
 
           final userData = snapshot.data!;
           final String name = userData['username'] ?? "username";
-          final String profilePic = userData['photoUrl'] ?? "https://ui-avatars.com/api/?name=$name&background=333&color=fff";
+          final String profilePic =
+              userData['photoUrl'] ??
+              "https://ui-avatars.com/api/?name=$name&background=333&color=fff";
 
           return DefaultTabController(
             length: 3,
@@ -182,10 +184,14 @@ class _PerfilScreenState extends State<PerfilScreen> {
                     delegate: SliverChildBuilderDelegate((context, index) {
                       final post = posts[index];
                       return ThreadCardWidget(
+                        postId: post.id ?? '',
                         userName: name,
                         content: post.text ?? "",
                         avatarUrl: avatar,
                         timeAgo: post.createdAt ?? DateTime.now(),
+                        onDelete: () {
+                          _handleRefresh();
+                        },
                       );
                     }, childCount: posts.length),
                   );
