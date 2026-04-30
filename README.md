@@ -1,6 +1,6 @@
 # threads_app
 
-A threds clone app
+A threads clone app
 
 ## Building from source 
 ```bash
