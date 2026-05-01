@@ -36,7 +36,7 @@ class Threads extends StatelessWidget {
           iconTheme: WidgetStateProperty.fromMap({
             WidgetState.selected: const IconThemeData(
               size: 28,
-              color: Colors.white,
+              color: AppColors.white,
             ),
             WidgetState.any: const IconThemeData(
               size: 28,

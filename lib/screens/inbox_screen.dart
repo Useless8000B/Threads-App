@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:threads_app/colors.dart';
 import 'package:threads_app/widgets/inbox_tile_widget.dart';
 
 class InboxScreen extends StatelessWidget {
@@ -13,16 +14,16 @@ class InboxScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.black,
+                color: AppColors.black,
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: const Color(0xFF1F1F1F)),
+                border: Border.all(color: AppColors.grey_2),
               ),
               child: const TextField(
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: AppColors.white),
                 decoration: InputDecoration(
                   hintText: "Search",
-                  hintStyle: TextStyle(color: Colors.grey, fontSize: 15),
-                  prefixIcon: Icon(Icons.search, color: Colors.grey),
+                  hintStyle: TextStyle(color: AppColors.grey_3, fontSize: 15),
+                  prefixIcon: Icon(Icons.search, color: AppColors.grey_3),
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(vertical: 12),
                 ),

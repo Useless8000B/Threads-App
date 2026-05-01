@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:threads_app/colors.dart';
 import 'package:threads_app/widgets/activity_tile_widget.dart';
 
 class LikedScreen extends StatelessWidget {
@@ -36,7 +37,7 @@ class LikedScreen extends StatelessWidget {
       height: 60,
       padding: const EdgeInsets.symmetric(vertical: 10),
       decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: Color(0xFF1F1F1F), width: 0.5)),
+        border: Border(bottom: BorderSide(color: AppColors.grey_2, width: 0.5)),
       ),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -61,7 +62,7 @@ class LikedScreen extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
                 side: BorderSide(
-                  color: isFirst ? Colors.white : const Color(0xFF1F1F1F),
+                  color: isFirst ? Colors.white : AppColors.grey_2,
                 ),
               ),
               showCheckmark: false,
